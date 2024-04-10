@@ -2,14 +2,17 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useId } from 'react';
 import * as Yup from 'yup';
 import css from './ContactForm.module.css';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../redux/contactsSlice';
 
 const FeedbackSchema = Yup.object().shape({
   username: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-    userNumber: Yup.string()
-        .matches(/^\d{3}-\d{2}-\d{2}$/, {
-        message: "Invalid phone number",
-        excludeEmptyString: false,
-  }).required('Required'),
+  userNumber: Yup.string()
+    .matches(/^\d{3}-\d{2}-\d{2}$/, {
+      message: 'Invalid phone number',
+      excludeEmptyString: false,
+    })
+    .required('Required'),
 });
 
 const initialValues = {
@@ -17,13 +20,14 @@ const initialValues = {
   userNumber: '',
 };
 
-const ContactForm = ({ onAddContact }) => {
+const ContactForm = () => {
   const usernameFieldId = useId();
   const userNumberFieldId = useId();
+  const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
     const { username, userNumber } = values;
-    onAddContact({ name: username, number: userNumber });
+    dispatch(addContact({ name: username, number: userNumber }));
     actions.resetForm();
   };
 

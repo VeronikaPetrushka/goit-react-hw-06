@@ -11,6 +11,7 @@ import { configureStore } from "@reduxjs/toolkit";
 } from 'redux-persist';
 import storage from "redux-persist/lib/storage";
 import rootReducer from "./rootReducer";
+import filtersReducer from "./filtersSlice";
 
 const persistConfig = {
   key: "root",
@@ -23,7 +24,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   filters: filtersReducer,
 },
-   middleware: getDefaultMiddleware =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
